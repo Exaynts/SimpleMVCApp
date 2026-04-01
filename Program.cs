@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IProductRepository, InMemoryProductRepository>();
+builder.Services.AddScoped<ICourseRepository, InMemoryCourseRepository>();
 
 var app = builder.Build();
 
@@ -39,6 +40,13 @@ app.MapControllerRoute(
     name: "product",
     pattern: "product/{id:int}",
     defaults: new { controller = "Demo", action = "ProductDetails" });
+
+// Кастомный маршрут 4. Сайт курсов
+
+app.MapControllerRoute(
+    name: "courses",
+    pattern: "Course/{action=Index}/{id?}",
+    defaults: new { controller = "Courses" });
 
 app.MapControllerRoute(
     name: "default",
