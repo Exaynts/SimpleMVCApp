@@ -1,0 +1,33 @@
+﻿.btn .btn-custom-red {
+    background-color: rgb(255, 85, 85);
+}
+
+.rounded-table {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+}
+
+.table-courses tbody tr:nth-child(odd) {
+    background-color: #fff;
+    color: #000;
+}
+
+.table-courses tbody tr:nth-child(even) {
+    background-color: rgb(255, 85, 85, 0.3);
+    color: #000;
+}
+
+.btn-custom-red {
+    background-color: rgb(255, 85, 85);
+    border-color: #f55;
+    color: #fff;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+    .btn-custom-red:hover {
+        background-color: #d44;
+        border-color: #d44;
+        color: #fff;
+    }
