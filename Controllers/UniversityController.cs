@@ -5,9 +5,7 @@ namespace MvcApp.Controllers
 {
     public class UniversityController : Controller
     {
-        //Список кафедр факультета информационных технологий,
-        //static потому что иначе конструктор Faculty ругается :(
-
+        // Кафедры факультета информационных технологий
         private static List<Department> digitTechnologies = new List<Department>(3) {
             new Department(1, "Доцент, к.т.н. Елена Николаевна Новикова",
                 "Кафедра программной инженерии", "Разработка ПО, мобильная разработка, веб-технологии", 
@@ -23,7 +21,7 @@ namespace MvcApp.Controllers
             },
         };
 
-        //Список кафедр биологического факультета
+        // Кафедры биологического факультета
         private static List<Department> biology = new List<Department>() {
             new Department(2, "Профессор, д.б.н. Дмитрий Александрович Белозерский",
                 "Кафедра биохимии и молекулярной биологии", "Молекулярная генетика, ферментология, " +
@@ -46,29 +44,21 @@ namespace MvcApp.Controllers
             }
         };
 
-        //Генерируем список факультетов, каждому передаем соответствующий список с кафедрами
-        //Вроде ничего сложного, несколько раз показала
-        //P.S. Часть комментариев потом удали
-        //Впрочем, непонятно зачем тогда именно в этой задаче каждой кафедре id факультета
-
         private List<Faculty> faculties = new() {
             new Faculty(1, "Факультет информационных технологий", "Digit Technologies", "it@university.ru",
                 "Ведущий IT-факультет, готовящий специалистов в области " +
                 "программирования, искусственного интеллекта и " +
                 "кибербезопасности", "Профессор, д.т.н. Александр Игоревич Смирнов",
-                "https://i.ibb.co/yBFDjtFJ/digital-technologies.jpg", "Математика, Информатика / Физика, Русский язык", 
+                "https://i.ibb.co/yBFDjtFJ/digital-technologies.jpg", "Математика, Русский язык, Информатика / Физика,", 
                 50, 250000, digitTechnologies),
 
             new Faculty(2, "Биологический факультет", "Biology", "bio@university.ru",
                 "Изучение жизни во всех её проявлениях — от молекулярных механизмов " +
                 "до экосистем планеты. Современные лаборатории, " +
                 "полевые практики и участие в реальных научных проектах", "Профессор, д.б.н. Надежда Викторовна Левина",
-                "https://i.ibb.co/FLD6fW70/biology.jpg", "Математика, Биология / Химия, Русский язык",
+                "https://i.ibb.co/FLD6fW70/biology.jpg", "Математика, Русский язык, Биология / Химия,",
                 60, 240000, biology)
         };
-
-        //Ради тренировки можешь еще потом математический факультет добавить,
-        // для этого ознакомься с классами Faculty и Department
 
         public IActionResult Index()
         {
@@ -78,22 +68,17 @@ namespace MvcApp.Controllers
             return View();
         }
 
-        //Список факультетов
-        //А вот здесь например Route не нужен, мы не передаем id
         public IActionResult Faculties()
         {
             ViewBag.Faculties = faculties;
             return View();
         }
 
-        //Вывести информацию о факультете с данным именем
-        //Строчкой ниже прописываем шаблон маршрута.
-        // Обязательно для маршрутов с параметрами, иначе будет ошибка 404!
         [Route("University/Faculty/{facultyName}")]
         public IActionResult Faculty(string facultyName)
         {
             Faculty faculty = new Faculty();          
-            //Ищем факультет с нужным именем
+            // Ищем факультет с нужным именем
             for (int i = 0; i < faculties.Count; ++i)
             {
                 if(faculties[i].Name.ToLower() == facultyName.ToLower() ||
@@ -104,28 +89,21 @@ namespace MvcApp.Controllers
                 }
             }
 
-            //Обрабатываем ситуацию, когда факультет не был найден
-            //и согласно конструктору по умолчанию поле Name осталось пустым
-
+            // Если факультет не был найден
             if(faculty.Name == string.Empty)
             {
                 return Content($"Факультета с названием {facultyName} не существует!");
             }
 
-            //Еще раз напишу, ViewBag лучше всего подходит для передачи списков.
-            //А то с ViewData цикл for будет ругаться
             ViewBag.Faculty = faculty;
             ViewBag.Departments = faculty.Departments;
             return View();
         }
 
-        //Вывести кафедры факультета с заданным id
-        //Строчкой ниже прописываем шаблон маршрута.
-        //Обязательно для маршрутов с параметрами, иначе будет ошибка 404!
         [Route("University/Departments/{facultyId}")]
         public IActionResult Departments(int facultyId)
         {
-            //Проверяем на выход за пределы списка с факультетами
+            // Проверяем на выход за пределы списка с факультетами
             if (facultyId < 1 || facultyId > faculties.Count)
             {
                 return Content($"Факультет с id {facultyId} не найден.");

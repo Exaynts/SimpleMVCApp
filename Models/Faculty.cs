@@ -3,17 +3,17 @@
     public class Faculty
     {
         public int Id { get; set; }
-        public string Name { get; set; } //Название
+        public string Name { get; set; } // Название
 
-        public string DubbedName { get; set; } //Английская версия названия
-        public string Email { get; set; } //Почта
-        public string Description { get; set; } //Описание
-        public string Dean { get; set; } //Заведующий
-        public string LogoPath { get; set; } //Путь к логотипу
-        public string Exams {  get; set; } //Вступительные экзамены
-        public int BudgetPlaces { get; set; } //Количество бюджетных мест
-        public List<Department> Departments { get; set; } //Список кафедр
-        public int Price { get; set; } //Цена за платное обучение в год
+        public string DubbedName { get; set; } // Английская версия названия
+        public string Email { get; set; } // Почта
+        public string Description { get; set; } // Описание
+        public string Dean { get; set; } // Заведующий
+        public string LogoPath { get; set; } //  к логотипу
+        public string Exams {  get; set; } // Вступительные экзамены
+        public int BudgetPlaces { get; set; } // Количество бюджетных мест
+        public List<Department> Departments { get; set; } // Список кафедр
+        public int Price { get; set; } // Цена за платное обучение (в год)
 
         public Faculty(int id, string name, string dubbedName, string email, 
             string description, string dean, string logopath,

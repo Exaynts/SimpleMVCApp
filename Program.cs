@@ -1,7 +1,10 @@
+// Add services to the container.
+using MvcApp.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IProductRepository, InMemoryProductRepository>();
 
 var app = builder.Build();
 
@@ -9,7 +12,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -20,19 +22,19 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-//Кастомный маршрут 1
+// Кастомный маршрут 1. О нас
 app.MapControllerRoute(
     name: "about",
     pattern: "about-us",
     defaults: new { controller = "Home", action = "Privacy" });
 
-//Кастомный маршрут 2
+// Кастомный маршрут 2. Профиль пользователя
 app.MapControllerRoute(
     name: "userProfile",
     pattern: "user/{username}/{action=Profile}",
     defaults: new { controller = "Demo" });
 
-//Кастомный маршрут 3
+// Кастомный маршрут 3. Конкретный продукт
 app.MapControllerRoute(
     name: "product",
     pattern: "product/{id:int}",
