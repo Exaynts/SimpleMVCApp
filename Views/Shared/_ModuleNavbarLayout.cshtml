@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@{
+    // Имя контроллера для кнопки Home (по умолчанию "Home")
+    var homeController = ViewBag.ModuleHomeController ?? "Home";
+    // Дополнительные стили (если заданы)
+    var extraStyles = ViewBag.ExtraStyles as List<string> ?? new List<string>();
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,34 +14,28 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MvcApp.styles.css" asp-append-version="true" />
+    @foreach (var style in extraStyles)
+    {
+        <link rel="stylesheet" href="@style" asp-append-version="true" />
+    }
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MvcApp</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1" style="flex-direction: row; gap: 20px;">
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-controller="Courses" asp-action="Index">Courses</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-controller="University"Index">University</a>
-    </li>
-</ul>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="@homeController" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>

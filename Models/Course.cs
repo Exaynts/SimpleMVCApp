@@ -9,15 +9,18 @@ namespace MvcApp.Models
 
         [Required(ErrorMessage = "Название курса обязательно")]
         [StringLength(200, MinimumLength = 5, ErrorMessage = "Название должно быть от 5 до 200 символов")]
-        public string Title { get; set; }
+        [Display(Name = "Название")]
+        public string Title { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Описание обязательно")]
         [StringLength(1000, MinimumLength = 10, ErrorMessage = "Описание должно содержать не менее 10 символов")]
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
+        [Display(Name = "Описание")]
         [Required(ErrorMessage = "Преподаватель обязателен")]
-        public string Instructor { get; set; }
+        public string Instructor { get; set; } = string.Empty;
 
+        [Display(Name = "Оценка")]
         [Range(1, 10, ErrorMessage = "Количество кредитов должно быть от 1 до 10")]
         public int Credits { get; set; }
 
@@ -47,7 +50,7 @@ namespace MvcApp.Models
             {
                 return new ValidationResult("Дата окончания курса должна быть позже даты его начала.");
             }
-            return ValidationResult.Success;
+            return ValidationResult.Success!;
         }
     }
 }

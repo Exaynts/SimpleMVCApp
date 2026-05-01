@@ -1,15 +1,33 @@
-// Add services to the container.
+using Microsoft.EntityFrameworkCore;
+using MvcApp.Data;
 using MvcApp.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
+// Добавление MVC
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<IProductRepository, InMemoryProductRepository>();
-builder.Services.AddScoped<ICourseRepository, InMemoryCourseRepository>();
+// Регистрация контекста базы данных
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+        .LogTo(Console.WriteLine, LogLevel.Information)
+        .EnableSensitiveDataLogging());
+
+// Регистрация репозиториев (EF Core)
+builder.Services.AddScoped<ICourseRepository, EfCourseRepository>();
+builder.Services.AddScoped<IProductRepository, EfProductRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Инициализация базы данных тестовыми данными (SeedData)
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    CourseSeedData.Initialize(dbContext);   // добавление курсов
+    ProductSeedData.Initialize(dbContext);  // добавление товаров
+}
+
+// Конфигурация конвейера обработки запросов (middleware)
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -18,30 +36,24 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
-// Кастомный маршрут 1. О нас
+// Кастомные маршруты
 app.MapControllerRoute(
     name: "about",
     pattern: "about-us",
     defaults: new { controller = "Home", action = "Privacy" });
 
-// Кастомный маршрут 2. Профиль пользователя
 app.MapControllerRoute(
     name: "userProfile",
     pattern: "user/{username}/{action=Profile}",
     defaults: new { controller = "Demo" });
 
-// Кастомный маршрут 3. Конкретный продукт
 app.MapControllerRoute(
     name: "product",
     pattern: "product/{id:int}",
     defaults: new { controller = "Demo", action = "ProductDetails" });
-
-// Кастомный маршрут 4. Сайт курсов
 
 app.MapControllerRoute(
     name: "courses",
