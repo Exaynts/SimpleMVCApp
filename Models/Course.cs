@@ -14,17 +14,19 @@ namespace MvcApp.Models
 
         [Required(ErrorMessage = "Описание обязательно")]
         [StringLength(1000, MinimumLength = 10, ErrorMessage = "Описание должно содержать не менее 10 символов")]
+        [Display(Name = "Описание")]
         public string Description { get; set; } = string.Empty;
 
-        [Display(Name = "Описание")]
         [Required(ErrorMessage = "Преподаватель обязателен")]
+        [Display(Name = "Преподаватель")]
         public string Instructor { get; set; } = string.Empty;
 
-        [Display(Name = "Оценка")]
         [Range(1, 10, ErrorMessage = "Количество кредитов должно быть от 1 до 10")]
+        [Display(Name = "Кредиты")]
         public int Credits { get; set; }
 
         [Range(1, 100, ErrorMessage = "Количество часов должно быть от 1 до 100")]
+        [Display(Name = "Часы")]
         public int Hours { get; set; }
 
         [DataType(DataType.Date)]

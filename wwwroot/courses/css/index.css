@@ -4,7 +4,6 @@
 
 .rounded-table {
     border-radius: 0.75rem;
-    overflow: hidden;
     border: 1px solid #dee2e6;
 }
 
@@ -31,3 +30,18 @@
         border-color: #d44;
         color: #fff;
     }
+
+.btn-custom-red {
+    margin-bottom: 5px;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+/* Для больших экранов кнопки можно располагать в строку с помощью медиа-запроса */
+@media (min-width: 768px) {
+    .table-courses td:last-child {
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+    }
+}

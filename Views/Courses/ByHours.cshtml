@@ -1,0 +1,60 @@
+﻿@model IEnumerable<MvcApp.Models.Course>
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+<h1>@ViewBag.Title</h1>
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    </div>
+}
+
+<form method="get" class="row g-3 mb-4">
+   <div class="col-auto">
+    <label class="form-label">От (часов)</label>
+    <input type="number" name="min" class="form-control"
+           placeholder="Мин. часов" value="@ViewBag.MinHours" step="1">
+	</div>
+	<div class="col-auto">
+		<label class="form-label">До (часов)</label>
+		<input type="number" name="max" class="form-control"
+			   placeholder="Макс. часов" value="@ViewBag.MaxHours" step="1">
+	</div>
+    <div class="col-auto align-self-end">
+        <button type="submit" class="btn btn-primary">Применить</button>
+        <a asp-action="Index" class="btn btn-secondary">Сбросить</a>
+    </div>
+</form>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">Курсы не найдены</div>
+}
+else
+{
+    <p>Найдено курсов: @Model.Count()</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Преподаватель</th>
+                <th>Часы</th>
+                <th>Длительность (дней)</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.Instructor</td>
+                    <td>@item.Hours</td>
+                    <td>@item.GetDuration()</td>
+                    <td><a asp-action="Details" asp-route-id="@item.Id">Детали</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

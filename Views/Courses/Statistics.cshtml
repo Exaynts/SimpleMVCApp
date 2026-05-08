@@ -1,0 +1,73 @@
+@model MvcApp.Models.CoursesStatisticsViewModel
+@{
+    ViewData["Title"] = "Статистика курсов";
+}
+<h1>Статистика курсов</h1>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Всего курсов</h5>
+                <p class="card-text display-4">@Model.TotalCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Средняя длительность</h5>
+                <p class="card-text display-4">@Model.AverageDuration.ToString("F1") дн.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Диапазон часов</h5>
+                <p class="card-text display-4">
+                    @Model.HoursRange.MinHours – @Model.HoursRange.MaxHours
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Диапазон кредитов</h5>
+                <p class="card-text display-4">
+                    @Model.CreditsRange.MinCredits – @Model.CreditsRange.MaxCredits
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Группировка по кредитам</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Кредиты</th>
+            <th>Курсов</th>
+            <th>Средняя длительность (дни)</th>
+            <th>Среднее количество часов</th>
+            <th>Мин. длительность</th>
+            <th>Макс. длительность</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var group in Model.CreditsGroups)
+        {
+            <tr>
+                <td>@group.Credits</td>
+                <td>@group.Count</td>
+                <td>@group.AverageDuration.ToString("F1")</td>
+                <td>@group.AverageHours.ToString("F1")</td>
+                <td>@group.MinDuration</td>
+                <td>@group.MaxDuration</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">Назад</a>

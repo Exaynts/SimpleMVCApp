@@ -1,0 +1,52 @@
+﻿@model IEnumerable<MvcApp.Models.Course>
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+<h1>@ViewBag.Title</h1>
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-auto">
+        <label class="form-label">Количество курсов</label>
+        <input type="number" name="count" class="form-control"
+               value="@ViewBag.Count" min="1" max="20" step="1">
+    </div>
+    <div class="col-auto align-self-end">
+        <button type="submit" class="btn btn-primary">Показать</button>
+        <a asp-action="Index" class="btn btn-secondary">Назад</a>
+    </div>
+</form>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">Нет курсов в базе данных</div>
+}
+else
+{
+    <div class="alert alert-info"><strong>Топ @ViewBag.Count самых длительных курсов</strong></div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Название</th>
+                <th>Преподаватель</th>
+                <th>Часы</th>
+                <th>Длительность (дней)</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int rank = 1; }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><strong>@(rank++)</strong></td>
+                    <td>@item.Title</td>
+                    <td>@item.Instructor</td>
+                    <td>@item.Hours</td>
+                    <td class="text-danger fw-bold">@item.GetDuration()</td>
+                    <td><a asp-action="Details" asp-route-id="@item.Id">Детали</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

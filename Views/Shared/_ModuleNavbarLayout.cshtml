@@ -1,7 +1,8 @@
 ﻿@{ 
     var homeController = ViewBag.ModuleHomeController ?? "Home";
     var extraStyles = ViewBag.ExtraStyles as List<string> ?? new List<string>();
-    var showLinQMenu = ViewBag.ShowLinQMenu == true; // для модуля Products
+    var showLinQMenu = ViewBag.ShowLinQMenu == true;
+    var linqMenuItems = ViewBag.LinqMenuItems as List<MvcApp.Models.LinqMenuItem> ?? new List<MvcApp.Models.LinqMenuItem>();
 }
 
 <!DOCTYPE html>
@@ -31,19 +32,21 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="@homeController" asp-action="Index">Home</a>
                         </li>
-                        @if (showLinQMenu)
+                        @if (showLinQMenu && linqMenuItems.Any())
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                                     LINQ-запросы
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-controller="Products" asp-action="ByPrice">Фильтр по цене</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Products" asp-action="TopExpensive">Топ дорогих</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Products" asp-action="Search">Поиск</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Products" asp-action="GroupedByCategory">По категориям</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Products" asp-action="Statistics">Статистика</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Products" asp-action="Paginated">Пагинация</a></li>
+                                    @foreach (var item in linqMenuItems)
+                                    {
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="@item.Controller" asp-action="@item.Action">
+                                                @item.Title
+                                            </a>
+                                        </li>
+                                    }
                                 </ul>
                             </li>
                         }

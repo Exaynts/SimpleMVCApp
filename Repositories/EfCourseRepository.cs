@@ -51,5 +51,69 @@ namespace MvcApp.Repositories
         {
             return _context.Courses.Any(c => c.Id == id);
         }
+
+        public IEnumerable<Course> GetCoursesByHoursRange(int minHours, int maxHours)
+        {
+            return _context.Courses
+                .Where(c => c.Hours >= minHours && c.Hours <= maxHours)
+                .OrderBy(c => c.Hours)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Получение топ N самых длительных курсов (по длительности в днях)
+        /// </summary>
+        public IEnumerable<Course> GetTopLongestCourses(int count)
+        {
+            // Длительность вычисляем как разницу дней в SQL с помощью EF.Functions
+            return _context.Courses
+                .OrderByDescending(c => EF.Functions.DateDiffDay(c.StartDate, c.EndDate))
+                .Take(count)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Поиск курсов по названию, описанию или преподавателю
+        /// </summary>
+        public IEnumerable<Course> SearchCourses(string searchTerm)
+        {
+            return _context.Courses
+                .Where(c => c.Title.Contains(searchTerm) ||
+                            c.Description.Contains(searchTerm) ||
+                            c.Instructor.Contains(searchTerm))
+                .OrderBy(c => c.Title)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Средняя длительность курсов в днях
+        /// </summary>
+        public double GetAverageDuration()
+        {
+            return _context.Courses
+                .Average(c => EF.Functions.DateDiffDay(c.StartDate, c.EndDate));
+        }
+
+        /// <summary>
+        /// Пагинация: получение курсов для указанной страницы
+        /// </summary>
+        public IEnumerable<Course> GetCoursesWithPagination(int page, int pageSize)
+        {
+            return _context.Courses
+                .OrderBy(c => c.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Общее количество страниц
+        /// </summary>
+        public int GetTotalPages(int pageSize)
+        {
+            var totalCount = _context.Courses.Count();
+            return (int)Math.Ceiling(totalCount / (double)pageSize);
+        }
     }
+
 }

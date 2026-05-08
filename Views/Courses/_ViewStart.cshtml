@@ -1,6 +1,15 @@
 ﻿@{
     Layout = "_ModuleNavbarLayout";
     ViewBag.ModuleHomeController = "Courses";
-	ViewBag.ShowLinQMenu = true;
+    ViewBag.ShowLinQMenu = true;
     ViewBag.ExtraStyles = new List<string> { "~/courses/css/index.css" };
+	ViewBag.LinqMenuItems = new List<MvcApp.Models.LinqMenuItem>
+	{
+		new MvcApp.Models.LinqMenuItem { Title = "Фильтр по часам", Action = "ByHours", Controller = "Courses" },
+		new MvcApp.Models.LinqMenuItem { Title = "Топ длительных", Action = "TopLongest", Controller = "Courses" },
+		new MvcApp.Models.LinqMenuItem { Title = "Поиск", Action = "Search", Controller = "Courses" },
+		new MvcApp.Models.LinqMenuItem { Title = "По кредитам", Action = "GroupedByCredits", Controller = "Courses" },
+		new MvcApp.Models.LinqMenuItem { Title = "Статистика", Action = "Statistics", Controller = "Courses" },
+		new MvcApp.Models.LinqMenuItem { Title = "Пагинация", Action = "Paginated", Controller = "Courses" }
+	};
 }

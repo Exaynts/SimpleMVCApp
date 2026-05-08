@@ -1,0 +1,43 @@
+@model IEnumerable<MvcApp.Models.Course>
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+<h1>@ViewBag.Title</h1>
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-auto flex-grow-1">
+        <input type="text" name="term" class="form-control"
+               placeholder="Введите поисковый запрос (название, описание, преподаватель)..."
+               value="@ViewBag.SearchTerm">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Найти</button>
+		<a asp-action="Search" class="btn btn-secondary">Сбросить</a>
+    </div>
+</form>
+
+@if (!string.IsNullOrWhiteSpace(ViewBag.SearchTerm) && !Model.Any())
+{
+    <div class="alert alert-info">По запросу "@ViewBag.SearchTerm" ничего не найдено</div>
+}
+
+@if (Model.Any())
+{
+    <div class="alert alert-success">Найдено курсов: @ViewBag.Count</div>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Title</h5>
+                        <p class="card-text text-muted">@item.Instructor</p>
+                        <p class="card-text"><strong>Часы:</strong> @item.Hours</p>
+                        <p class="card-text"><strong>Длительность:</strong> @item.GetDuration() дней</p>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

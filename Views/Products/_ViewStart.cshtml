@@ -1,7 +1,16 @@
 ﻿@{
     Layout = "_ModuleNavbarLayout";
     ViewBag.ModuleHomeController = "Products";
-	ViewBag.ShowLinQMenu = true;
+    ViewBag.ShowLinQMenu = true;
+    ViewBag.LinqMenuItems = new List<MvcApp.Models.LinqMenuItem>
+    {
+        new MvcApp.Models.LinqMenuItem { Title = "Фильтр по цене", Action = "ByPrice", Controller = "Products" },
+        new MvcApp.Models.LinqMenuItem { Title = "Топ дорогих", Action = "TopExpensive", Controller = "Products" },
+        new MvcApp.Models.LinqMenuItem { Title = "Поиск", Action = "Search", Controller = "Products" },
+        new MvcApp.Models.LinqMenuItem { Title = "По категориям", Action = "GroupedByCategory", Controller = "Products" },
+        new MvcApp.Models.LinqMenuItem { Title = "Статистика", Action = "Statistics", Controller = "Products" },
+        new MvcApp.Models.LinqMenuItem { Title = "Пагинация", Action = "Paginated", Controller = "Products" }
+    };
     // Если для модуля будут дополнительные стили, в будущем можем добавить
     // ViewBag.ExtraStyles = new List<string> { "~/products/css/index.css" };
 }
