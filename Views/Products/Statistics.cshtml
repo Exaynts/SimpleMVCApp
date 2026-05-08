@@ -1,0 +1,66 @@
+@model ProductsStatisticsViewModel
+@{
+ViewData["Title"] = "Статистика товаров";
+} 
+<h1>Статистика товаров</h1>
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Всего товаров</h5>
+                <p class="card-text display-4">@Model.TotalCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">В наличии</h5>
+                <p class="card-text display-4">@Model.InStockCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Средняя цена</h5>
+                <p class="card-text display-4">@Model.AveragePrice.ToString("C")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Диапазон цен</h5>
+                <p class="card-text">
+                    от @Model.PriceRange.MinPrice.ToString("C")<br>
+                    до @Model.PriceRange.MaxPrice.ToString("C")
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<h2>Статистика по категориям</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Категория</th>
+            <th>Количество</th>
+            <th>Средняя цена</th>
+            <th>Мин. цена</th>
+            <th>Макс. цена</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model.Categories){
+        <tr>
+            <td>@category.Category</td>
+            <td>@category.Count</td>
+            <td>@category.AveragePrice.ToString("C")</td>
+            <td>@category.MinPrice.ToString("C")</td>
+            <td>@category.MaxPrice.ToString("C")</td>
+        </tr>
+}
+    </tbody>
+</table>
+<a asp-action="Index" class="btn btn-secondary">Назад</a>

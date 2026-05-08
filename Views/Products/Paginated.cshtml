@@ -1,0 +1,63 @@
+@model IEnumerable<Product>
+@{
+ViewData["Title"] = "Товары (пагинация)";
+} 
+<h1>Товары (пагинация)</h1>
+<p>Страница @ViewBag.CurrentPage из @ViewBag.TotalPages</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Категория</th>
+            <th>Цена</th>
+            <th>В наличии</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model){
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Category</td>
+            <td>@item.Price.ToString("C")</td>
+            <td>@(item.InStock ? "Да" : "Нет")</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Детали</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<nav>
+    <ul class="pagination">
+        @if (ViewBag.HasPreviousPage){
+        <li class="page-item">
+            <a class="page-link" asp-action="Paginated" asp-routepage="@(ViewBag.CurrentPage - 1)">Назад</a>
+        </li>
+        }
+        else{
+        <li class="page-item disabled">
+            <span class="page-link">Назад</span>
+        </li>
+        } 
+
+        @for (int i = 1; i <= ViewBag.TotalPages; i++){
+        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+            <a class="page-link" asp-action="Paginated" asp-routepage="@i">@i</a>
+        </li>
+        } 
+
+        @if (ViewBag.HasNextPage){
+        <li class="page-item">
+            <a class="page-link" asp-action="Paginated" asp-routepage="@(ViewBag.CurrentPage + 1)">Вперёд</a>
+        </li>
+        }
+        else
+        {
+        <li class="page-item disabled">
+            <span class="page-link">Вперёд</span>
+        </li>
+        }
+    </ul>
+</nav>
+<a asp-action="Index" class="btn btn-secondary">Назад</a>

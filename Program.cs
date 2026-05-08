@@ -1,11 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using MvcApp.Data;
 using MvcApp.Repositories;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Добавление MVC
 builder.Services.AddControllersWithViews();
+
+// Устанавливаем папку App_Data как DataDirectory для LocalDB
+AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(builder.Environment.ContentRootPath, "App_Data"));
 
 // Регистрация контекста базы данных
 builder.Services.AddDbContext<AppDbContext>(options =>
